@@ -1,0 +1,129 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Lint, types and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm lint
+
+      - run: pnpm typecheck
+
+      - run: pnpm build
+
+      # A build that passes can still ship the wrong files.
+      - name: Verify the published contents
+        run: |
+          pnpm pack --pack-destination /tmp
+          tar tzf /tmp/*.tgz | sed 's|^package/||' | sort > /tmp/shipped.txt
+          echo "Files in the tarball:"
+          cat /tmp/shipped.txt
+          for required in dist/index.js dist/index.d.ts ui/index.html README.md LICENSE; do
+            grep -qx "$required" /tmp/shipped.txt || { echo "missing from tarball: $required"; exit 1; }
+          done
+          if grep -qE '^(test|ui-test|docs)/' /tmp/shipped.txt; then
+            echo "tests or docs leaked into the tarball"; exit 1
+          fi
+
+  dashboard:
+    name: Dashboard tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm test:ui
+
+  integration:
+    name: Integration tests (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [22, 24]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # Not a service container: the cluster suite starts three more nodes, and a
+      # container cannot form a cluster with processes outside it.
+      - name: Install Redis
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y redis-server
+          redis-server --version
+
+      - name: Start the standalone Redis
+        run: |
+          redis-server --daemonize yes --save '' --appendonly no
+          until redis-cli ping; do sleep 0.2; done
+
+      # A fixed path: a runner's TMPDIR could put the data somewhere unexpected.
+      - name: Start the three-node cluster
+        run: bash test/cluster/up.sh
+        env:
+          SENTINEL_CLUSTER_DIR: /tmp/nestjs-sentinel-cluster
+
+      - run: pnpm build
+
+      # A suite that never ran must not pass for coverage, and a missing cluster
+      # reports as skipped.
+      - name: Integration suite
+        run: |
+          set -o pipefail
+          pnpm test:integration 2>&1 | tee /tmp/run.txt
+          if grep -q "skipped" /tmp/run.txt; then
+            echo "::error::A suite was skipped; the cluster probably never came up."
+            grep -i "skip" /tmp/run.txt
+            exit 1
+          fi
+
+      - name: Stop the cluster
+        if: always()
+        run: bash test/cluster/down.sh
+        env:
+          SENTINEL_CLUSTER_DIR: /tmp/nestjs-sentinel-cluster

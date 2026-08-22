@@ -1,0 +1,98 @@
+{
+  "name": "nestjs-sentinel",
+  "version": "1.0.0",
+  "description": "Redis-backed queues, job batches and a dashboard for NestJS, inspired by Laravel Horizon.",
+  "keywords": [
+    "nestjs",
+    "queue",
+    "bullmq",
+    "redis",
+    "batch",
+    "jobs",
+    "dashboard",
+    "sentinel",
+    "monitoring",
+    "horizon"
+  ],
+  "license": "MIT",
+  "packageManager": "pnpm@11.18.0",
+  "author": "dazza-dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dazza-dev/nestjs-sentinel.git"
+  },
+  "homepage": "https://github.com/dazza-dev/nestjs-sentinel#readme",
+  "bugs": {
+    "url": "https://github.com/dazza-dev/nestjs-sentinel/issues"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "ui",
+    "README.md",
+    "LICENSE"
+  ],
+  "type": "commonjs",
+  "scripts": {
+    "build": "rimraf dist ui && pnpm build:ui && tsc -p tsconfig.build.json",
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.test.json --noEmit && vue-tsc --noEmit -p ui-src/tsconfig.json",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"ui-test/**/*.ts\" \"ui-src/src/**/*.{ts,vue}\"",
+    "prepublishOnly": "pnpm build",
+    "build:ui": "vite build --config ui-src/vite.config.ts",
+    "dev:ui": "vite --config ui-src/vite.config.ts",
+    "test": "pnpm test:ui && pnpm test:integration",
+    "test:ui": "vitest run",
+    "test:integration": "ts-node --project tsconfig.test.json test/run.ts",
+    "demo": "ts-node --project tsconfig.test.json demo.ts",
+    "cluster:up": "bash test/cluster/up.sh",
+    "cluster:down": "bash test/cluster/down.sh"
+  },
+  "dependencies": {
+    "express": "^5.0.0"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/core": "^11.0.0",
+    "bullmq": "^6.0.0",
+    "ioredis": "^6.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/core": "^11.0.0",
+    "@nestjs/platform-express": "^11.2.1",
+    "@types/express": "^5.0.0",
+    "@types/node": "^24.0.0",
+    "@vitejs/plugin-vue": "^6.0.8",
+    "@vue/test-utils": "^2.4.11",
+    "bootstrap": "^5.3.8",
+    "bullmq": "^6.1.2",
+    "chart.js": "^4.5.1",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.6",
+    "eslint-plugin-vue": "^10.10.0",
+    "globals": "^16.5.0",
+    "happy-dom": "^20.11.2",
+    "ioredis": "^6.0.0",
+    "prettier": "^3.9.6",
+    "rimraf": "^6.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.0",
+    "typescript-eslint": "^8.67.0",
+    "vite": "^7.3.6",
+    "vitest": "^4.1.11",
+    "vue": "^3.5.41",
+    "vue-router": "^4.6.4",
+    "vue-tsc": "^3.3.10"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

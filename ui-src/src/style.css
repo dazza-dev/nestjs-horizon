@@ -1,0 +1,586 @@
+:root {
+  --hz-bg: #f3f4f6;
+  --hz-accent: #f1455f;
+  --hz-accent-strong: #d92c47;
+  --hz-frame: #4b5563;
+  --hz-accent-soft: #fde8ec;
+  --hz-text: #111827;
+  --hz-muted: #6b7280;
+  --hz-border: #e5e7eb;
+  --hz-card: #ffffff;
+  --hz-card-header: #ffffff;
+  --hz-surface: #f3f4f6;
+  --hz-table-header: #f3f4f6;
+  --hz-danger: #ef4444;
+
+  /* Status pill tokens. */
+  --hz-pill-ok-bg: #d1fae5;
+  --hz-pill-ok-text: #047857;
+  --hz-pill-bad-bg: #fee2e2;
+  --hz-pill-bad-text: #b91c1c;
+  --hz-pill-warn-bg: #fef3c7;
+  --hz-pill-warn-text: #b45309;
+  --hz-pill-busy-bg: #dbeafe;
+  --hz-pill-busy-text: #1d4ed8;
+}
+
+body {
+  background: var(--hz-bg);
+  color: var(--hz-text);
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.hz-brand {
+  color: var(--hz-text);
+  font-weight: 600;
+  font-size: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.hz-brand svg {
+  color: var(--hz-accent);
+}
+
+.hz-navbar {
+  padding: 1.6rem 2rem 1.5rem;
+  margin: 0 1rem;
+  border-bottom: 1px solid var(--hz-border);
+}
+
+.hz-card {
+  background: var(--hz-card);
+  border: none;
+  border-radius: 6px;
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+.hz-card-header {
+  background: var(--hz-card-header);
+  border-radius: 6px 6px 0 0;
+  padding: 0.9rem 1.15rem;
+  border-bottom: 1px solid var(--hz-border);
+  font-weight: 600;
+}
+
+
+
+.hz-table {
+  margin: 0;
+
+  /* Bootstrap paints its own dark grey on tables, which hides the card underneath. */
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--hz-text);
+  --bs-table-border-color: var(--hz-border);
+}
+
+.hz-table th {
+  background: var(--hz-table-header, var(--hz-surface));
+  color: var(--hz-text);
+  font-weight: 600;
+  border-bottom: 1px solid var(--hz-border);
+  padding: 0.75rem 0.5rem;
+}
+
+.hz-table td {
+  vertical-align: middle;
+  border-color: var(--hz-border);
+}
+
+
+
+.hz-empty {
+  color: var(--hz-muted);
+  padding: 2.5rem 0;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* Bootstrap flips its own variables; these are the ones this dashboard adds. */
+[data-bs-theme='dark'] {
+  --hz-bg: #111827;
+  --hz-accent: #ff8095;
+  --hz-accent-strong: #f1455f;
+  --hz-frame: #9ca3af;
+  --hz-accent-soft: #3a2028;
+  --hz-text: #f3f4f6;
+  --hz-muted: #9ca3af;
+  --hz-border: #374151;
+  --hz-card: #1f2937;
+  --hz-card-header: #374151;
+  --hz-surface: #1f2937;
+  --hz-table-header: #1f2937;
+  --hz-danger: #f87171;
+
+  /* Inverted: dim wash, light text. */
+  --hz-pill-ok-bg: #06342a;
+  --hz-pill-ok-text: #6ee7b7;
+  --hz-pill-bad-bg: #3f1d1d;
+  --hz-pill-bad-text: #fca5a5;
+  --hz-pill-warn-bg: #3b2a09;
+  --hz-pill-warn-text: #fcd34d;
+  --hz-pill-busy-bg: #16294a;
+  --hz-pill-busy-text: #93c5fd;
+}
+
+.hz-scheme {
+  color: var(--hz-muted);
+  border: 1px solid var(--hz-border);
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.5rem;
+}
+
+.hz-scheme:hover {
+  color: var(--hz-accent);
+  border-color: var(--hz-accent);
+}
+
+.hz-scheme.hz-active {
+  color: var(--hz-accent);
+  border-color: var(--hz-accent);
+  background: var(--hz-accent-soft);
+}
+
+.hz-new-entries td {
+  background: var(--hz-accent-soft);
+  color: var(--hz-accent);
+  font-size: 0.85rem;
+}
+
+/* Sidebar. */
+.hz-sidebar .nav-link {
+  color: #4b5563;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 4px;
+  border-radius: 0.5rem;
+}
+
+.hz-sidebar .nav-link svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 15px;
+  flex: 0 0 auto;
+  fill: #9ca3af;
+}
+
+.hz-sidebar .nav-link:hover {
+  background-color: #e5e7eb;
+  color: var(--hz-accent);
+}
+
+.hz-sidebar .nav-link.hz-on {
+  background-color: #e5e7eb;
+  color: var(--hz-accent);
+}
+
+.hz-sidebar .nav-link.hz-on svg {
+  fill: var(--hz-accent);
+}
+
+[data-bs-theme='dark'] .hz-sidebar .nav-link {
+  color: #9ca3af;
+}
+
+[data-bs-theme='dark'] .hz-sidebar .nav-link svg {
+  fill: #6b7280;
+}
+
+[data-bs-theme='dark'] .hz-sidebar .nav-link:hover {
+  background-color: #1f2937;
+  color: #d1d5db;
+}
+
+[data-bs-theme='dark'] .hz-sidebar .nav-link.hz-on {
+  background-color: #1f2937;
+  color: var(--hz-accent);
+}
+
+[data-bs-theme='dark'] .hz-sidebar .nav-link.hz-on svg {
+  fill: var(--hz-accent);
+}
+
+/* Overview grid. */
+.hz-overview {
+  background: var(--hz-surface);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.75rem 1rem;
+  padding: 1.5rem 1.15rem;
+  border-radius: 0 0 6px 6px;
+}
+
+.hz-overview-label {
+  color: var(--hz-muted);
+  font-size: 0.9rem;
+  margin-bottom: 0.35rem;
+}
+
+.hz-overview-value {
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 992px) {
+  .hz-overview {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Tabs: underline style. */
+.hz-tabs {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0.75rem 1.15rem 0;
+  border-bottom: 1px solid var(--hz-border);
+}
+
+.hz-tab {
+  color: #4b5563;
+  text-decoration: none;
+  padding-bottom: 0.6rem;
+  border-bottom: 2px solid transparent;
+  font-size: 0.95rem;
+}
+
+.hz-tab:hover {
+  color: #1f2937;
+}
+
+.hz-tab.router-link-active,
+.hz-tab.hz-tab-on {
+  color: var(--hz-accent);
+  border-bottom-color: var(--hz-accent);
+}
+
+.hz-link {
+  color: var(--hz-accent);
+  text-decoration: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.hz-link:hover {
+  text-decoration: underline;
+}
+
+.hz-chart-body {
+  background: var(--hz-surface);
+  padding: 1.25rem;
+  border-radius: 0 0 6px 6px;
+}
+
+.hz-not-enough {
+  text-align: center;
+  color: var(--hz-text);
+  padding: 4.5rem 0;
+}
+
+[data-bs-theme='dark'] .hz-tab {
+  color: #9ca3af;
+}
+
+[data-bs-theme='dark'] .hz-tab:hover {
+  color: #d1d5db;
+}
+
+.hz-search {
+  max-width: 240px;
+}
+
+/* Definition list, for batch and job details. */
+.hz-detail {
+  background: var(--hz-surface);
+  padding: 1.25rem 1.15rem;
+  border-radius: 0 0 6px 6px;
+}
+
+.hz-detail-row {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  padding: 0.3rem 0;
+  font-size: 0.95rem;
+}
+
+.hz-detail-label {
+  color: var(--hz-muted);
+}
+
+
+@media (max-width: 768px) {
+  .hz-detail-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Stack frames. */
+.hz-frame {
+  padding: 0.75rem 1.15rem;
+  border-bottom: 1px solid var(--hz-border);
+  color: var(--hz-frame);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.82rem;
+  word-break: break-word;
+}
+
+.hz-frame:last-child {
+  border-bottom: none;
+}
+
+/* The code block stays dark in both themes. */
+.hz-json {
+  background: #292d3e;
+  color: #e6e8ee;
+  margin: 0;
+  padding: 1.15rem;
+  border-radius: 0 0 6px 6px;
+  font-size: 0.82rem;
+  max-height: 420px;
+  overflow: auto;
+}
+
+.hz-json-key {
+  color: #e6e8ee;
+}
+
+.hz-json-string {
+  color: #86efac;
+  font-style: italic;
+}
+
+.hz-json-number,
+.hz-json-literal {
+  color: var(--hz-accent);
+}
+
+
+
+/* Bootstrap ships a blue primary; the accent is red-pink. */
+.btn-primary {
+  --bs-btn-bg: var(--hz-accent);
+  --bs-btn-border-color: var(--hz-accent);
+  --bs-btn-hover-bg: var(--hz-accent-strong);
+  --bs-btn-hover-border-color: var(--hz-accent-strong);
+  --bs-btn-active-bg: var(--hz-accent-strong);
+  --bs-btn-active-border-color: var(--hz-accent-strong);
+  --bs-btn-disabled-bg: var(--hz-accent);
+  --bs-btn-disabled-border-color: var(--hz-accent);
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--hz-accent);
+  --bs-btn-border-color: var(--hz-accent);
+  --bs-btn-hover-bg: var(--hz-accent);
+  --bs-btn-hover-border-color: var(--hz-accent);
+  --bs-btn-active-bg: var(--hz-accent);
+  --bs-btn-active-border-color: var(--hz-accent);
+}
+
+/*
+ * Status pills. Tinted rather than filled: a solid block of colour on every row reads as
+ * an alarm, and most rows are not.
+ */
+.hz-pill {
+  display: inline-block;
+  padding: 0.3em 0.65em;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.hz-pill-ok {
+  background-color: var(--hz-pill-ok-bg);
+  color: var(--hz-pill-ok-text);
+}
+
+.hz-pill-bad {
+  background-color: var(--hz-pill-bad-bg);
+  color: var(--hz-pill-bad-text);
+}
+
+.hz-pill-warn {
+  background-color: var(--hz-pill-warn-bg);
+  color: var(--hz-pill-warn-text);
+}
+
+.hz-pill-busy {
+  background-color: var(--hz-pill-busy-bg);
+  color: var(--hz-pill-busy-text);
+}
+
+.progress-bar {
+  background-color: var(--hz-accent);
+}
+
+/* The queue sits under the job name, saving the table a column. */
+.hz-job-queue {
+  color: var(--hz-muted);
+  font-size: 0.875rem;
+}
+
+/* Row actions. */
+.hz-actions {
+  white-space: nowrap;
+}
+
+.hz-action {
+  display: inline-flex;
+  padding: 0.25rem;
+  color: var(--hz-muted);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.hz-action svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: currentColor;
+}
+
+.hz-action-primary {
+  color: var(--hz-accent);
+}
+
+.hz-action-primary:hover {
+  color: var(--hz-accent-strong);
+}
+
+.hz-action-danger,
+.hz-action-danger:hover {
+  color: var(--hz-danger);
+}
+
+.hz-action-danger:hover {
+  opacity: 0.75;
+}
+
+.hz-spin {
+  animation: hz-spin 0.9s linear infinite;
+}
+
+@keyframes hz-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Keyboard focus only. The ring after a mouse click reads as a selection box. */
+.hz-sidebar .nav-link:focus:not(:focus-visible),
+.hz-action:focus:not(:focus-visible),
+.hz-tab:focus:not(:focus-visible) {
+  outline: none;
+  box-shadow: none;
+}
+
+.hz-sidebar .nav-link:focus-visible,
+.hz-action:focus-visible,
+.hz-tab:focus-visible {
+  outline: 2px solid var(--hz-accent);
+  outline-offset: 2px;
+}
+
+/* Bootstrap's secondary is dimmer than the muted grey the tables lean on. */
+.hz-table .text-secondary,
+.hz-detail-label {
+  color: var(--hz-muted) !important;
+}
+
+.hz-table td {
+  padding: 0.75rem 0.5rem;
+}
+
+/* Amber marks a paused supervisor. */
+.hz-action-warning,
+.hz-paused-mark {
+  color: #f59e0b;
+  fill: #f59e0b;
+}
+
+.hz-action-warning:hover {
+  color: #d97706;
+}
+
+.hz-tags {
+  margin-top: 0.35rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.hz-tag {
+  font-size: 0.75rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 4px;
+  background: var(--hz-surface);
+  color: var(--hz-muted);
+}
+
+.hz-failed-count {
+  color: var(--hz-danger);
+}
+
+/* Confirmation dialog. Native <dialog> handles the rest; only the surface is styled. */
+.hz-confirm {
+  border: 1px solid var(--hz-border);
+  border-radius: 0.75rem;
+  background: var(--hz-card);
+  color: var(--hz-text);
+  padding: 0;
+  max-width: 26rem;
+  width: calc(100% - 2rem);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 18%);
+}
+
+.hz-confirm::backdrop {
+  background: rgb(17 24 39 / 45%);
+}
+
+.hz-confirm-body {
+  padding: 1.25rem;
+}
+
+.hz-confirm-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.hz-confirm-text {
+  color: var(--hz-muted);
+  font-size: 0.875rem;
+  margin: 0.5rem 0 0;
+}
+
+.hz-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+
+/* Bootstrap's danger is a different red to the accent. */
+.hz-confirm-danger {
+  background: var(--hz-danger);
+  border-color: var(--hz-danger);
+  color: #ffffff;
+}
+
+.hz-confirm-danger:hover {
+  background: #dc2626;
+  border-color: #dc2626;
+  color: #ffffff;
+}

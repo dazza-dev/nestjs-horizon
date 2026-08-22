@@ -1,0 +1,5 @@
+# esbuild ships a native binary that Vite needs; msgpackr-extract is an optional
+# BullMQ speed-up and works fine without its build step.
+allowBuilds:
+  esbuild: true
+  msgpackr-extract: false
