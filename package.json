@@ -1,6 +1,6 @@
 {
   "name": "nestjs-sentinel",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Redis-backed queues, job batches and a dashboard for NestJS, inspired by Laravel Horizon.",
   "keywords": [
     "nestjs",

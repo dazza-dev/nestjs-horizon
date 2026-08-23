@@ -102,6 +102,8 @@ export class WorkerManager implements OnApplicationBootstrap, OnModuleDestroy {
     const running: string[] = [];
 
     for (const [name, supervisor] of Object.entries(this.options.supervisors)) {
+      const opened: string[] = [];
+
       for (const queue of supervisor.queues) {
         const handler = handlers.get(queue);
 
@@ -117,15 +119,17 @@ export class WorkerManager implements OnApplicationBootstrap, OnModuleDestroy {
         });
 
         slots[queue] = (slots[queue] ?? 0) + (supervisor.concurrency ?? 1);
-
-        if (!running.includes(name)) {
-          running.push(name);
-        }
+        opened.push(queue);
       }
 
-      this.logger.log(
-        `${name}: ${supervisor.queues.join(', ')} (concurrency ${supervisor.concurrency ?? 1} per queue)`,
-      );
+      // Only the queues that got a worker, and nothing at all when none did: a
+      // supervisor announcing queues it never opened reads as healthy.
+      if (opened.length) {
+        running.push(name);
+        this.logger.log(
+          `${name}: ${opened.join(', ')} (concurrency ${supervisor.concurrency ?? 1} per queue)`,
+        );
+      }
     }
 
     this.registry.declareRunning(running, slots);

@@ -223,9 +223,11 @@ export async function run(): Promise<Suite> {
 
   // Scheduled for next month: it belongs in the recent-jobs card, never in a rate of work
   // done. Only a completion writes to that index; failures never reach it.
+  // The rate divides by the span observed, which keeps growing, so it drifts down on its
+  // own. What a push must never do is raise it.
   check(
     'a job that has not run counts as pushed but not as work done',
-    (await metrics.jobsPerMinute()) === rateBefore &&
+    (await metrics.jobsPerMinute()) <= rateBefore &&
       (await metrics.recentJobs()) - pushedBefore === 1,
     `rate ${rateBefore}→${await metrics.jobsPerMinute()} pushed +${
       (await metrics.recentJobs()) - pushedBefore

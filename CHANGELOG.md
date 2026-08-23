@@ -4,6 +4,13 @@ Notable changes to this project. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] — 2026-08-22
+
+### Fixed
+
+- A supervisor whose queues all lacked a processor announced itself at boot as though it were
+  running, and every supervisor listed the queues it declared rather than the ones it opened.
+
 ## [1.0.0] — 2026-08-22
 
 First release.
@@ -30,4 +37,5 @@ First release.
 - Maintenance operations: pause, resume, terminate, clear a queue, forget failures, clear metrics.
 - Age-based retention alongside BullMQ's count-based `removeOnComplete`.
 
+[1.0.1]: https://github.com/dazza-dev/nestjs-sentinel/releases/tag/v1.0.1
 [1.0.0]: https://github.com/dazza-dev/nestjs-sentinel/releases/tag/v1.0.0
